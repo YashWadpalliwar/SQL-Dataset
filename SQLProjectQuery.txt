@@ -1,0 +1,155 @@
+
+
+
+
+ORDER BY + GROUP BY + HAVING
+1. Show all employees sorted by salary in descending order.
+2. Show employees sorted by department (A→Z) and salary (highest→lowest).
+3. Display employees sorted by experience (highest first).
+4. Sort employees by gender and then by empname alphabetically.
+5. Show top 5 highest-paid employees using ORDER BY.
+6. Find total number of employees in each department.
+7. Find average salary of each department.
+8. Count how many male and female employees are there (group by gender).
+9. Find total experience (sum) for each department.
+10. Find minimum and maximum salary in each department.
+11. Show departments where average salary is more than 40,000.
+12. Show departments having more than 3 employees.
+13. Show gender groups where average experience is more than 5 years.
+14. Find departments where total salary budget exceeds 2,00,000.
+15. Display departments where the maximum salary is above 70,000.
+16. Show departments and their total employees, only for departments having more than 2 employees, sorted by employee count (descending).
+17. Show each gender’s average salary, only if avg salary > 30,000, and order by avg salary.
+18. Show total experience per department, show only those with total experience > 20 years, ordered by total experience (descending).
+19. Show department-wise highest salary and order by highest salary in descending order.
+20. Show male and female employee count per department.
+1. Show the top 3 highest-paid employees in each department.
+2. Show the lowest 2 salaries in each department.
+3. Display employees whose salary is above the average salary of their department.
+4. List departments sorted by the number of employees (highest → lowest).
+5. Show department-wise salary difference (max salary – min salary).
+7. Show gender-wise average salary per department, only where avg salary > 40,000.
+8. Show departments where more than 50% of employees are female.
+9. Show departments where the average salary of males is greater than the average salary of females.
+10. Show departments where the maximum salary is more than twice the minimum salary.
+11. Find the median salary of each department (approx using window functions or manual logic).
+12. Display employees who have the highest salary in their department, sorted by salary.
+13. List departments where total salary spend is in the top 3 among all departments.
+14. Show departments where employee count is equal to the number of unique salary values.
+15. Show departments where min salary < average salary < max salary (sanity check).
+16. Show overall employee count, and compare it with each department count (percentage).
+17. Show department-wise experience per employee (average experience per person).
+18. Show departments where total experience of male employees > female employees.
+19. Show departments where the highest salary employee has > 10 years experience.
+20. Show departments where the lowest salary employee has < 1 year experience.
+21. Show employees who belong to departments whose avg salary is among the top 2.
+22. Show departments where total salary expense is above the global average total salary expense.
+23. Show departments where average salary increased after removing the highest salary.
+24. Show department-wise salary variance (logic only; depends on DB).
+25. Show employees whose salary is in the top 10% of the entire company.
+
+
+
+
+
+
+
+
+
+
+
+
+-- ORDER BY Clause
+
+SELECT * 
+FROM employeesdata
+ORDER BY Salary DESC
+LIMIT 5;
+
+SELECT Name, Salary
+FROM employeesdata
+ORDER BY Name ASC;
+
+SELECT DISTINCT Department
+FROM employeesdata
+ORDER BY Department;
+
+
+-- GROUP BY
+
+SELECT Department
+FROM employeesdata
+GROUP BY Department;
+
+SELECT Department, COUNT(Department) AS total_count
+FROM employeesdata
+GROUP BY Department;
+
+SELECT Gender, SUM(Salary) AS total_salary
+FROM employeesdata
+GROUP BY Gender
+ORDER BY total_salary;
+
+SELECT Gender, SUM(Salary) AS total_salary
+FROM employeesdata
+GROUP BY Gender
+ORDER BY 1;
+
+
+-- Practice Questions
+
+-- 1) Total experience for each department
+SELECT Department, SUM(Experience) AS total_experience
+FROM employeesdata
+GROUP BY Department;
+
+-- 2) Maximum salary in each gender
+SELECT Gender, MAX(Salary) AS max_salary
+FROM employeesdata
+GROUP BY Gender;
+
+-- 3) Minimum age in each department
+SELECT Department, MIN(Age) AS min_age
+FROM employeesdata
+GROUP BY Department;
+
+-- 4) List of genders and number of employees earning above 60000
+SELECT Gender, COUNT(*) AS total_employees
+FROM employeesdata
+WHERE Salary > 60000
+GROUP BY Gender;
+
+
+-- HAVING Clause
+
+SELECT Department, AVG(Salary) AS avg_salary
+FROM employeesdata
+GROUP BY Department
+HAVING AVG(Salary) > 60000;
+
+
+-- Practice Questions
+
+-- 1) Find department where the minimum salary is greater than 70000
+SELECT Department, MIN(Salary) AS min_salary
+FROM employeesdata
+GROUP BY Department
+HAVING MIN(Salary) > 70000;
+
+-- 2) Find gender where the maximum salary is greater than 80000
+SELECT Gender, MAX(Salary) AS max_salary
+FROM employeesdata
+GROUP BY Gender
+HAVING MAX(Salary) > 80000;
+
+-- 3) Find department where the average salary is greater than 60000
+SELECT Department, AVG(Salary) AS avg_salary
+FROM employeesdata
+GROUP BY Department
+HAVING AVG(Salary) > 60000;
+
+-- 4) Find genders where the total salary is greater than 70000
+SELECT Gender, SUM(Salary) AS total_salary
+FROM employeesdata
+GROUP BY Gender
+HAVING SUM(Salary) > 70000;
