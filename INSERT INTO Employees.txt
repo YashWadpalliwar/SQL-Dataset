@@ -1,0 +1,103 @@
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50) not null,
+    email VARCHAR(100)
+);
+
+INSERT INTO users (name, email) VALUES ('Hamza', 'hamza@gmail.com');
+
+---------------------------------------------------------------------------------------------
+CREATE TABLE salary_data (
+    id INT PRIMARY KEY,
+    salary_date DATE,
+    salary DECIMAL(10,2)
+);
+
+INSERT INTO salary_data (id, salary_date, salary) VALUES
+(1, '2025-01-15', 1500.50),
+(2, '2025-01-20', 1700.75),
+(3, '2025-01-10', 1200.00),
+(4, '2025-01-05', 2500.30),
+(5, '2025-02-12', 1800.20),
+(6, '2025-02-25', 2100.50),
+(7, '2025-02-18', 2300.75),
+(8, '2025-03-21', 1900.00),
+(9, '2025-03-13', 2600.45),
+(10, '2025-03-07', 3000.10);
+
+---------------------------------------------------------------------------------------------
+CREATE TABLE Employees (
+    ID INT PRIMARY KEY,
+    Name VARCHAR(50),
+    Age INT,
+    Experience INT,
+    Salary DECIMAL(10,2),
+    Gender VARCHAR(10),
+    Department VARCHAR(50));
+
+INSERT INTO Employees (ID, Name, Age, Experience, Salary, Gender, Department) VALUES
+(1, 'Amit', 20, 1, 50000.00, 'Male', 'Software Development'),
+(2, 'Prashant', 20, 9, 5000.00, 'Male', 'Technical Support'),
+(3, 'Jon', 20, 4, 60000.00, 'Male', 'Data Analysis'),
+(4, 'Anjali Gupta', 60, 10, 90000.00, 'Female', 'Project Management'),
+(5, 'Vikram Singh', 29, 2, 48000.00, 'Other', 'Software Development'),
+(6, 'Rohan Das', 32, 4, 58000.00, 'Male', 'Cyber Security'),
+(7, 'Sneha Patel', 29, 8, 80000.00, 'Female', 'Data Analysis'),
+(8, 'Arjun Nair', 27, 3, 55000.00, 'Male', 'DevOps'),
+(9, 'Neha Kapoor', 32, 9, 85000.00, 'Female', 'Machine Learning'),
+(10, 'Karan Mehta', 32, 3, 50000.00, 'Male', 'IT Support'),
+(11, 'Pooja Iyer', 60, 1, 42000.00, 'Female', 'System Administration'),
+(12, 'Suresh Reddy', 32, 10, 67000.00, 'Male', 'Machine Learning'),
+(13, 'Aditi Joshi', 60, 2, 80000.00, 'Female', 'Web Development'),
+(14, 'Manish Chawla', 29, 3, 55000.00, 'Male', 'Full Stack Development'),
+(15, 'Neha Kumare', 30, 10, 55000.00, 'Male', 'Machine Learning'),
+(16, 'Faheem', 25, 3, 9000.00, 'Male', 'IT Support'),
+(17, 'Saif', 31, 3, 60000.00, 'Male', 'Software Development'),
+(18, 'Yafiay', 25, 3, 9000.00, 'Male', 'Frontend Development'),
+(19, 'Ankit', 31, 3, 60000.00, 'Male', 'Backend Development'),
+(20, 'Ritika Sharma', 28, 5, 75000.00, 'Female', 'UI/UX Design'),
+(21, 'Rahul Verma', 35, 12, 95000.00, 'Male', 'Cyber Security'),
+(22, 'Ishita Desai', 26, 4, 67000.00, 'Female', 'Data Science'),
+(23, 'Mohit Saxena', 29, 7, 78000.00, 'Male', 'Cloud Computing'),
+(24, 'Harshita Kapoor', 31, 8, 83000.00, 'Female', 'Project Management'),
+(25, 'Nitin Sharma', 27, 3, 56000.00, 'Male', 'Software Engineering'),
+(26, 'Simran Kaur', 30, 6, 72000.00, 'Female', 'AI Research'),
+(27, 'Aditya Malhotra', 33, 11, 99000.00, 'Male', 'DevOps'),
+(28, 'Anusha Rao', 24, 2, 45000.00, 'Female', 'Web Development'),
+(29, 'Rajesh Pillai', 37, 15, 105000.00, 'Male', 'Software Development'),
+(30, 'Megha Tandon', 25, 3, 50000.00, 'Female', 'Product Management');
+--------------------------------------------------------------------------------------
+
+UPDATE employees
+SET salary = CASE
+    WHEN id = 1 THEN 70000
+    WHEN id = 2 THEN 80000
+    WHEN id = 3 THEN 90000
+END
+WHERE id IN (1, 2, 3);
+
+
+-------------------------------------------------------------------------------------------------
+
+select * from  (select *, row_number() over(order by salary desc) as result from employee) as a where result = 1;
+
+-- Query with LEAD() and LAG()
+SELECT *,
+       LAG(Salary) OVER (ORDER BY Salary) AS Previous_Salary,
+       lead(salary)  OVER (ORDER BY Salary) AS next_Salary,
+       FIRST_VALUE(Salary) OVER (ORDER BY Salary) AS Lowest_Salary,
+       LAST_VALUE(Salary) OVER (ORDER BY Salary) AS Highest_Salary,
+       NTH_VALUE(Salary, 2) OVER (ORDER BY Salary) AS Second_Lowest_Salary
+FROM lead_lag;
+
+SELECT 
+    MONTH(orderdate) AS order_month,
+     SUM(sales) AS total_sales,
+    lag(sum(sales)) over(order by MONTH(orderdate)) as previous_sales
+FROM 
+    extract_monthfun
+GROUP BY 
+    MONTH(orderdate);
+
+
+------------------------------------------------------------
